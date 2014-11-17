@@ -86,8 +86,11 @@ that it depends on that have ``configure.zcml`` or ``meta.zcml``.
 Note that the individual lists within ``includableInfo`` preserve the
 package order defined in ``setup.py``::
 
-    >>> a_include_finder.includableInfo(['configure.zcml', 'meta.zcml'])
-    {'configure.zcml': ['b.c'], 'meta.zcml': ['z3c.autoinclude', 'testdirective']}
+    >>> info = a_include_finder.includableInfo(['configure.zcml', 'meta.zcml'])
+    >>> info['meta.zcml']
+    ['z3c.autoinclude', 'testdirective']
+    >>> info['configure.zcml']
+    ['b.c']
 
 For a nested namespace package with two siblings ``SiblingPackage``,
 we should get the same expected results. The sibling package
@@ -126,10 +129,10 @@ order::
     >>> dummy = xmlconfig.file(resource_filename('a', 'configure.zcml'),
     ...                        package=a)
     >>> from testdirective.zcml import test_log
-    >>> pprint(test_log)
-    [u'f.g meta has been loaded',
-     u'f.h has been loaded',
-     u'BCPackage has been loaded']
+    >>> pprint(list(map(str, test_log)))
+    ['f.g meta has been loaded',
+     'f.h has been loaded',
+     'BCPackage has been loaded']
 
 There is also a directive for including overrides, which calls
 ``autoIncludeOverridesDirective``; however, I have no idea how to test

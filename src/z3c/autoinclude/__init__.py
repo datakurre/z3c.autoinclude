@@ -1,2 +1,2 @@
 #
-from dependency import package_includes
+from z3c.autoinclude.dependency import package_includes

@@ -24,7 +24,7 @@ class DependencyFinder(DistributionManager):
             for dotted_name in dist_manager.dottedNames():
                 try:
                     module = resolve(dotted_name)
-                except ImportError, exc:
+                except ImportError as exc:
                     logging.getLogger("z3c.autoinclude").warn(
                         "resolve(%r) raised import error: %s" % (dotted_name, exc))
                     continue

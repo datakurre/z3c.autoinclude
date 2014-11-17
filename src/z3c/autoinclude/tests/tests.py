@@ -5,7 +5,7 @@ import unittest
 from zc.buildout import testing
 
 projects_dir = os.path.dirname(__file__)
-    
+
 # this is the list of test packages that we'll temporarily install
 # for the duration of the tests; you MUST add your test package name
 # to this list if you want it to be available for import in doctests!
@@ -52,7 +52,7 @@ def testSetUp(test):
     install test packages so that they can be imported
     and their egg info examined in test runs
     """
-    
+
     testing.buildoutSetUp(test)
     import tempfile
     target_dir = tempfile.mkdtemp('.z3c.autoinclude.test-installs')
@@ -85,7 +85,8 @@ def test_suite():
                                  tearDown=testTearDown,
                                  globs={'pprint':pprint},
                                  checker=IgnoreCaseChecker(),
-                                 optionflags=doctest.ELLIPSIS)
+                                 optionflags=(doctest.ELLIPSIS |
+                                              doctest.IGNORE_EXCEPTION_DETAIL))
 
     return unittest.TestSuite((suite,))
 

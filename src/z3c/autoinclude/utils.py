@@ -39,7 +39,7 @@ class ZCMLInfo(dict):
         for zcml_group in zcml_to_look_for:
             self[zcml_group] = []
 
-    
+
 def subpackageDottedNames(package_path, ns_dottedname=None):
     # we do not look for subpackages in zipped eggs
     if not isUnzippedEgg(package_path):
@@ -87,12 +87,12 @@ def distributionForDottedName(package_dottedname):
                 continue
             valid_dists_for_package.append((dist, ns_packages))
 
-    if len(valid_dists_for_package) == 0:
+    if len(list(valid_dists_for_package)) == 0:
         raise LookupError("No distributions found for package `%s`; are you sure it is importable?" % package_dottedname)
-    
-    if len(valid_dists_for_package) > 1:
+
+    if len(list(valid_dists_for_package)) > 1:
         non_namespaced_dists = filter(lambda x: len(x[1]) is 0, valid_dists_for_package)
-        if len(non_namespaced_dists) == 0:
+        if len(list(non_namespaced_dists)) == 0:
             # if we only have namespace packages at this point, 'foo.bar' and 'foo.baz', while looking for 'foo',
             # we can just select the first because the choice has no effect
             return valid_dists_for_package[0][0]
@@ -109,9 +109,9 @@ Please make any necessary adjustments and reinstall the modified distribution(s)
 Distributions found: %s
 '''
 
-        assert len(non_namespaced_dists) == 1, error_msg % (
+        assert len(list(non_namespaced_dists)) == 1, error_msg % (
             package_dottedname, package_dottedname,
-            pformat(non_namespaced_dists))
+            pformat(list(non_namespaced_dists)))
 
     return valid_dists_for_package[0][0]
 
@@ -126,7 +126,7 @@ def namespaceDottedNames(dist):
     except KeyError:
         ns_dottednames = []
     return ns_dottednames
-    
+
 def isUnzippedEgg(path):
     """
     Check whether a filesystem path points to an unzipped egg; z3c.autoinclude

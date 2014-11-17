@@ -74,8 +74,8 @@ should accurately reflect that the ``FooPackage`` ZCML has been loaded::
 
     >>> dummy = xmlconfig.file(resource_filename('basepackage', 'configure.zcml'),
     ...                        package=basepackage)
-    >>> pprint(test_log)
-    [u'foo has been loaded']
+    >>> pprint(list(map(str, test_log)))
+    ['foo has been loaded']
 
 ``base2`` is a namespace package. ``base2.plug`` is a package that
 defines a plugin for base2; it extends ``base2``s namespace.
@@ -89,5 +89,5 @@ defines a plugin for base2; it extends ``base2``s namespace.
     >>> filename = resource_filename(req, os.path.join('base2', 'configure.zcml'))
 
     >>> dummy = xmlconfig.file(filename, package=base2)
-    >>> pprint(test_log)
-    [u'base2.plug has been loaded']
+    >>> pprint(list(map(str, test_log)))
+    ['base2.plug has been loaded']
