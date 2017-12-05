@@ -34,8 +34,12 @@ class DependencyFinder(DistributionManager):
                                                                  exc))
                     continue
                 for candidate in zcml_to_look_for:
-                    candidate_path = os.path.join(
-                        os.path.dirname(module.__file__), candidate)
+                    try:
+                        candidate_path = os.path.join(
+                            os.path.dirname(module.__file__), candidate)
+                    except AttributeError as exception:
+                        # Module is probably a namespace with multiple paths.
+                        continue  # There should be no zcml in namespaces.
                     if os.path.isfile(candidate_path):
                         result[candidate].append(dotted_name)
         return result
